@@ -27,7 +27,6 @@ export default class App extends React.Component {
   getTodo = () => {
     axios.get(URL)
     .then(res => {
-      console.log('this is the getTodo res', res.data)
       this.setState({
         ...this.state, 
         todo: res.data.data,
@@ -46,7 +45,6 @@ export default class App extends React.Component {
     }
     axios.post(URL, newTodo)
     .then(res => {
-      console.log('this is addTodo res', res)
       this.setState({
         ...this.state,
         todo: [ ...this.state.todo, res.data.data]
@@ -63,12 +61,10 @@ export default class App extends React.Component {
   completeTodo = id => {
     axios.patch(`${URL}/${id}`)
     .then(res => {
-      console.log('this is the completed', res.data.data)
       this.setState({
         ...this.state,
         successMessage: res.data.data.message,
         todo: this.state.todo.map(data => {
-          console.log('this is the data', res.data.data.patched_todo)
           return data.id == id ? res.data.data : data
         })
       })
@@ -102,7 +98,7 @@ export default class App extends React.Component {
             return (
               <li key={id}>
                 {completed == true ? `${name} is done!` : `${name} needs work`}
-                <button onClick={evt => this.completeTodo(id)}>finished</button>
+                <button onClick={evt => this.completeTodo(id)}>{completed == true ? `do it again` : `finished`}</button>
                 </li>
             )
           })}
