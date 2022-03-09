@@ -53,10 +53,10 @@ export default class App extends React.Component {
           todo: [...this.state.todo, res.data.data],
         });
       })
-      .catch((err) => {
+      .catch(() => {
         this.setState({
           ...this.state,
-          errorMessage: err.response.data.message,
+          errorMessage: 'ERROR',
         });
       });
   };
@@ -67,16 +67,16 @@ export default class App extends React.Component {
       .then((res) => {
         this.setState({
           ...this.state,
-          successMessage: res.data.data.message,
+          successMessage: res.data.message,
           todo: this.state.todo.map((data) => {
             return data.id == id ? res.data.data : data;
           }),
         });
       })
-      .catch((err) => {
+      .catch(() => {
         this.setState({
           ...this.state,
-          errorMessage: err.response.data.message,
+          errorMessage: 'ERROR',
         });
       });
   };
@@ -90,11 +90,15 @@ export default class App extends React.Component {
 
   render() {
     const { todo, form } = this.state;
-    const {successMessage, errorMessage} = this.state;
+    const { successMessage, errorMessage } = this.state;
     return (
       <div>
-        <TodoList successMessage={successMessage} errorMessage={errorMessage} />
-        <Todo todo={ todo } key={todo.id} completeTodo={this.completeTodo} />
+        {successMessage}
+        {errorMessage}
+        <TodoList
+          todo={todo}
+        />
+        <Todo todo={todo} key={todo.id} completeTodo={this.completeTodo} />
         <Form
           onChange={this.changeTodo}
           values={form}
